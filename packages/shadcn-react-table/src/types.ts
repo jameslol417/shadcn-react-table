@@ -96,7 +96,7 @@ export type Xor<A, B> =
 
 //   export type MRT_ColumnFilterFnsState = Record<string, MRT_FilterOption>;
 
-export type SRT_RowData = any
+export type SRT_RowData = any;
 //   export type MRT_RowData = Record<string, any>;
 
 //   export type MRT_ColumnFiltersState = ColumnFiltersState;
@@ -262,6 +262,14 @@ export type SRT_RowData = any
 //     rowsById: { [key: string]: MRT_Row<TData> };
 //   }
 
+export type SRT_TableInstance<TData extends SRT_RowData> = Omit<
+  Table<TData>,
+  'getAllColumns' | 'getState'
+> & {
+  getAllColumns: () => SRT_Column<TData>[];
+  getState: () => SRT_TableState<TData>
+};
+
 //   export type MRT_TableInstance<TData extends MRT_RowData> = Omit<
 //     Table<TData>,
 //     | 'getAllColumns'
@@ -341,6 +349,7 @@ export type SRT_RowData = any
 //     setShowToolbarDropZone: Dispatch<SetStateAction<boolean>>;
 //   };
 
+export type SRT_DefinedTableOptions<TData extends SRT_RowData> = SRT_TableOptions<TData>
 //   export type MRT_DefinedTableOptions<TData extends MRT_RowData> = Omit<
 //     MRT_TableOptions<TData>,
 //     'icons' | 'localization' | 'mrtTheme'
@@ -375,6 +384,10 @@ export type SRT_RowData = any
 //         | 'showToolbarDropZone'
 //       >;
 //     };
+
+export interface SRT_TableState<TData extends SRT_RowData> extends TableState {
+
+}
 
 //   export interface MRT_TableState<TData extends MRT_RowData> extends TableState {
 //     actionCell?: MRT_Cell<TData> | null;
@@ -720,6 +733,9 @@ export interface SRT_ColumnDef<TData extends SRT_RowData, TValue = unknown>
 //       columns: MRT_ColumnDef<TData>[];
 //     };
 
+export type SRT_DefinedColumnDef<TData extends SRT_RowData, TValue = unknown> = Omit<SRT_ColumnDef<TData, TValue>, 'id'> & {
+  id: string
+}
 //   export type MRT_DefinedColumnDef<
 //     TData extends MRT_RowData,
 //     TValue = unknown,
@@ -728,6 +744,14 @@ export interface SRT_ColumnDef<TData extends SRT_RowData, TValue = unknown>
 //     defaultDisplayColumn: Partial<MRT_ColumnDef<TData, TValue>>;
 //     id: string;
 //   };
+
+export type SRT_Column<TData extends SRT_RowData, TValue = unknown> = Omit<
+  Column<TData, TValue>,
+  'columnDef' | 'columns' // | 'filterFn' | 'footer' | 'header'
+> & {
+  columnDef: SRT_DefinedColumnDef<TData, TValue>
+  columns?: SRT_Column<TData, TValue>[]
+};
 
 //   export type MRT_Column<TData extends MRT_RowData, TValue = unknown> = Omit<
 //     Column<TData, TValue>,
@@ -820,9 +844,13 @@ export interface SRT_ColumnDef<TData extends SRT_RowData, TValue = unknown>
 //     | 'mrt-row-spacer';
 
 export interface SRT_TableOptions<TData extends SRT_RowData>
-  extends Omit<Partial<TableOptions<TData>>, 'columns' | 'data'> {
+  extends Omit<Partial<TableOptions<TData>>, 'columns' | 'data' | 'state'> {
   columns: SRT_ColumnDef<TData, any>[];
   data: TData[];
+  /**
+   * Manage state externally any way you want, then pass it back into MRT.
+   */
+  state?: Partial<SRT_TableState<TData>>;
 }
 
 //   /**
