@@ -1,0 +1,85 @@
+{
+    "version": "0.0.1",
+    "license": "MIT",
+    "name": "shadcn-react-table",
+    "description": "A ShadCn V4 implementation of Tanstack React Table V8, forked from Material React Table",
+    "author": "jameslol417",
+    "keywords": [
+        "react-table",
+        "shadcn-ui",
+        "shadcn-table",
+        "tanstack table",
+        "data table"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jameslol417/shadcn-react-table"
+    },
+    "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/jameslol417"
+    },
+    "bugs": {
+        "url": "https://github.com/jameslol417/shadcn-react-table/issues"
+    },
+    "sideEffects": false,
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "locales",
+        "src"
+    ],
+    "size-limit": [
+        {
+            "path": "dist/index.js",
+            "limit": "55 KB"
+        },
+        {
+            "path": "dist/index.esm.js",
+            "limit": "51 KB"
+        }
+    ],
+    "engines": {
+        "node": ">=16"
+    },
+    "scripts": {
+        "build": "pnpm lib:build",
+        "build-locales": "pnpm lib:build-locales",
+        "build-lib": "pnpm lib:build-lib",
+        "dev": "pnpm lib:dev",
+        "lib:build": "pnpm build-lib && pnpm build-locales",
+        "lib:build-locales": "node build-locales.mjs",
+        "lib:build-lib": "rm -rf dist && rollup -c rollup.config.mjs && size-limit",
+        "lib:dev": "rollup -c rollup.config.mjs --watch",
+        "lint": "eslint .",
+        "size": "size-limit"
+    },
+    "devDependencies": {
+        "@rollup/plugin-typescript": "^12.1.2",
+        "@tailwindcss/vite": "^4.0.6",
+        "@types/react": "^19.0.9",
+        "@types/react-dom": "^19.0.3",
+        "@vitejs/plugin-react": "^4.3.4",
+        "clsx": "^2.1.1",
+        "eslint": "^9.20.1",
+        "lucide-react": "^0.475.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "rollup": "^4.34.7",
+        "rollup-plugin-delete": "^2.1.0",
+        "rollup-plugin-dts": "^6.1.1",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
+        "size-limit": "^11.1.6",
+        "tailwind-merge": "^3.0.1",
+        "tailwindcss": "^4.0.6",
+        "typescript": "^5.7.3",
+        "vite": "^6.1.0"
+    },
+    "dependencies": {
+        "@tanstack/match-sorter-utils": "^8.19.4",
+        "@tanstack/react-table": "^8.21.2",
+        "@tanstack/react-virtual": "^3.13.0"
+    }
+}
