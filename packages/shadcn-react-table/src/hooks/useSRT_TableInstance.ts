@@ -1,9 +1,13 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
+import { useReactTable } from '@tanstack/react-table';
 import {
   type SRT_RowData,
   type SRT_DefinedTableOptions,
   type SRT_TableInstance,
+  type SRT_StatefulTableOptions,
 } from '../types';
+import { useSRT_Effects } from './useSRT_Effects';
+import { getAllLeafColumnDefs, getColumnId } from '../utils/columns.utils';
 
 /**
  * The SRT hook that wraps the TanStack useReactTable hook and adds additional functionality
@@ -13,138 +17,138 @@ import {
 export const useSRT_TableInstance = <TData extends SRT_RowData>(
   definedTableOptions: SRT_DefinedTableOptions<TData>,
 ): SRT_TableInstance<TData> => {
-//   const lastSelectedRowId = useRef<null | string>(null);
-//   const actionCellRef = useRef<HTMLTableCellElement>(null);
-//   const bottomToolbarRef = useRef<HTMLDivElement>(null);
-//   const editInputRefs = useRef<Record<string, HTMLInputElement>>({});
-//   const filterInputRefs = useRef<Record<string, HTMLInputElement>>({});
-//   const searchInputRef = useRef<HTMLInputElement>(null);
-//   const tableContainerRef = useRef<HTMLDivElement>(null);
-//   const tableHeadCellRefs = useRef<Record<string, HTMLTableCellElement>>({});
-//   const tablePaperRef = useRef<HTMLDivElement>(null);
-//   const topToolbarRef = useRef<HTMLDivElement>(null);
-//   const tableHeadRef = useRef<HTMLTableSectionElement>(null);
-//   const tableFooterRef = useRef<HTMLTableSectionElement>(null);
+  const lastSelectedRowId = useRef<null | string>(null);
+  //   const actionCellRef = useRef<HTMLTableCellElement>(null);
+  //   const bottomToolbarRef = useRef<HTMLDivElement>(null);
+  //   const editInputRefs = useRef<Record<string, HTMLInputElement>>({});
+  //   const filterInputRefs = useRef<Record<string, HTMLInputElement>>({});
+  //   const searchInputRef = useRef<HTMLInputElement>(null);
+    const tableContainerRef = useRef<HTMLDivElement>(null);
+  //   const tableHeadCellRefs = useRef<Record<string, HTMLTableCellElement>>({});
+    const tablePaperRef = useRef<HTMLDivElement>(null);
+  //   const topToolbarRef = useRef<HTMLDivElement>(null);
+    const tableHeadRef = useRef<HTMLTableSectionElement>(null);
+  //   const tableFooterRef = useRef<HTMLTableSectionElement>(null);
 
-//   //transform initial state with proper column order
-//   const initialState: Partial<MRT_TableState<TData>> = useMemo(() => {
-//     const initState = definedTableOptions.initialState ?? {};
-//     initState.columnOrder =
-//       initState.columnOrder ??
-//       getDefaultColumnOrderIds({
-//         ...definedTableOptions,
-//         state: {
-//           ...definedTableOptions.initialState,
-//           ...definedTableOptions.state,
-//         },
-//       } as MRT_StatefulTableOptions<TData>);
-//     initState.globalFilterFn = definedTableOptions.globalFilterFn ?? 'fuzzy';
-//     return initState;
-//   }, []);
+  //   //transform initial state with proper column order
+  //   const initialState: Partial<MRT_TableState<TData>> = useMemo(() => {
+  //     const initState = definedTableOptions.initialState ?? {};
+  //     initState.columnOrder =
+  //       initState.columnOrder ??
+  //       getDefaultColumnOrderIds({
+  //         ...definedTableOptions,
+  //         state: {
+  //           ...definedTableOptions.initialState,
+  //           ...definedTableOptions.state,
+  //         },
+  //       } as MRT_StatefulTableOptions<TData>);
+  //     initState.globalFilterFn = definedTableOptions.globalFilterFn ?? 'fuzzy';
+  //     return initState;
+  //   }, []);
 
-//   definedTableOptions.initialState = initialState;
+  //   definedTableOptions.initialState = initialState;
 
-//   const [actionCell, setActionCell] = useState<MRT_Cell<TData> | null>(
-//     initialState.actionCell ?? null,
-//   );
-//   const [creatingRow, _setCreatingRow] = useState<MRT_Row<TData> | null>(
-//     initialState.creatingRow ?? null,
-//   );
-//   const [columnFilterFns, setColumnFilterFns] =
-//     useState<MRT_ColumnFilterFnsState>(() =>
-//       Object.assign(
-//         {},
-//         ...getAllLeafColumnDefs(
-//           definedTableOptions.columns as MRT_ColumnDef<TData>[],
-//         ).map((col) => ({
-//           [getColumnId(col)]:
-//             col.filterFn instanceof Function
-//               ? col.filterFn.name ?? 'custom'
-//               : col.filterFn ??
-//                 initialState?.columnFilterFns?.[getColumnId(col)] ??
-//                 getDefaultColumnFilterFn(col),
-//         })),
-//       ),
-//     );
-//   const [columnOrder, onColumnOrderChange] = useState<MRT_ColumnOrderState>(
-//     initialState.columnOrder ?? [],
-//   );
-//   const [columnSizingInfo, onColumnSizingInfoChange] =
-//     useState<MRT_ColumnSizingInfoState>(
-//       initialState.columnSizingInfo ?? ({} as MRT_ColumnSizingInfoState),
-//     );
-//   const [density, setDensity] = useState<MRT_DensityState>(
-//     initialState?.density ?? 'comfortable',
-//   );
-//   const [draggingColumn, setDraggingColumn] =
-//     useState<MRT_Column<TData> | null>(initialState.draggingColumn ?? null);
-//   const [draggingRow, setDraggingRow] = useState<MRT_Row<TData> | null>(
-//     initialState.draggingRow ?? null,
-//   );
-//   const [editingCell, setEditingCell] = useState<MRT_Cell<TData> | null>(
-//     initialState.editingCell ?? null,
-//   );
-//   const [editingRow, setEditingRow] = useState<MRT_Row<TData> | null>(
-//     initialState.editingRow ?? null,
-//   );
-//   const [globalFilterFn, setGlobalFilterFn] = useState<MRT_FilterOption>(
-//     initialState.globalFilterFn ?? 'fuzzy',
-//   );
-//   const [grouping, onGroupingChange] = useState<MRT_GroupingState>(
-//     initialState.grouping ?? [],
-//   );
-//   const [hoveredColumn, setHoveredColumn] = useState<Partial<
-//     MRT_Column<TData>
-//   > | null>(initialState.hoveredColumn ?? null);
-//   const [hoveredRow, setHoveredRow] = useState<Partial<MRT_Row<TData>> | null>(
-//     initialState.hoveredRow ?? null,
-//   );
-//   const [isFullScreen, setIsFullScreen] = useState<boolean>(
-//     initialState?.isFullScreen ?? false,
-//   );
-//   const [pagination, onPaginationChange] = useState<MRT_PaginationState>(
-//     initialState?.pagination ?? { pageIndex: 0, pageSize: 10 },
-//   );
-//   const [showAlertBanner, setShowAlertBanner] = useState<boolean>(
-//     initialState?.showAlertBanner ?? false,
-//   );
-//   const [showColumnFilters, setShowColumnFilters] = useState<boolean>(
-//     initialState?.showColumnFilters ?? false,
-//   );
-//   const [showGlobalFilter, setShowGlobalFilter] = useState<boolean>(
-//     initialState?.showGlobalFilter ?? false,
-//   );
-//   const [showToolbarDropZone, setShowToolbarDropZone] = useState<boolean>(
-//     initialState?.showToolbarDropZone ?? false,
-//   );
+  //   const [actionCell, setActionCell] = useState<MRT_Cell<TData> | null>(
+  //     initialState.actionCell ?? null,
+  //   );
+  //   const [creatingRow, _setCreatingRow] = useState<MRT_Row<TData> | null>(
+  //     initialState.creatingRow ?? null,
+  //   );
+  //   const [columnFilterFns, setColumnFilterFns] =
+  //     useState<MRT_ColumnFilterFnsState>(() =>
+  //       Object.assign(
+  //         {},
+  //         ...getAllLeafColumnDefs(
+  //           definedTableOptions.columns as MRT_ColumnDef<TData>[],
+  //         ).map((col) => ({
+  //           [getColumnId(col)]:
+  //             col.filterFn instanceof Function
+  //               ? col.filterFn.name ?? 'custom'
+  //               : col.filterFn ??
+  //                 initialState?.columnFilterFns?.[getColumnId(col)] ??
+  //                 getDefaultColumnFilterFn(col),
+  //         })),
+  //       ),
+  //     );
+  //   const [columnOrder, onColumnOrderChange] = useState<MRT_ColumnOrderState>(
+  //     initialState.columnOrder ?? [],
+  //   );
+  //   const [columnSizingInfo, onColumnSizingInfoChange] =
+  //     useState<MRT_ColumnSizingInfoState>(
+  //       initialState.columnSizingInfo ?? ({} as MRT_ColumnSizingInfoState),
+  //     );
+  //   const [density, setDensity] = useState<MRT_DensityState>(
+  //     initialState?.density ?? 'comfortable',
+  //   );
+  //   const [draggingColumn, setDraggingColumn] =
+  //     useState<MRT_Column<TData> | null>(initialState.draggingColumn ?? null);
+  //   const [draggingRow, setDraggingRow] = useState<MRT_Row<TData> | null>(
+  //     initialState.draggingRow ?? null,
+  //   );
+  //   const [editingCell, setEditingCell] = useState<MRT_Cell<TData> | null>(
+  //     initialState.editingCell ?? null,
+  //   );
+  //   const [editingRow, setEditingRow] = useState<MRT_Row<TData> | null>(
+  //     initialState.editingRow ?? null,
+  //   );
+  //   const [globalFilterFn, setGlobalFilterFn] = useState<MRT_FilterOption>(
+  //     initialState.globalFilterFn ?? 'fuzzy',
+  //   );
+  //   const [grouping, onGroupingChange] = useState<MRT_GroupingState>(
+  //     initialState.grouping ?? [],
+  //   );
+  //   const [hoveredColumn, setHoveredColumn] = useState<Partial<
+  //     MRT_Column<TData>
+  //   > | null>(initialState.hoveredColumn ?? null);
+  //   const [hoveredRow, setHoveredRow] = useState<Partial<MRT_Row<TData>> | null>(
+  //     initialState.hoveredRow ?? null,
+  //   );
+  //   const [isFullScreen, setIsFullScreen] = useState<boolean>(
+  //     initialState?.isFullScreen ?? false,
+  //   );
+  //   const [pagination, onPaginationChange] = useState<MRT_PaginationState>(
+  //     initialState?.pagination ?? { pageIndex: 0, pageSize: 10 },
+  //   );
+  //   const [showAlertBanner, setShowAlertBanner] = useState<boolean>(
+  //     initialState?.showAlertBanner ?? false,
+  //   );
+  //   const [showColumnFilters, setShowColumnFilters] = useState<boolean>(
+  //     initialState?.showColumnFilters ?? false,
+  //   );
+  //   const [showGlobalFilter, setShowGlobalFilter] = useState<boolean>(
+  //     initialState?.showGlobalFilter ?? false,
+  //   );
+  //   const [showToolbarDropZone, setShowToolbarDropZone] = useState<boolean>(
+  //     initialState?.showToolbarDropZone ?? false,
+  //   );
 
-//   definedTableOptions.state = {
-//     actionCell,
-//     columnFilterFns,
-//     columnOrder,
-//     columnSizingInfo,
-//     creatingRow,
-//     density,
-//     draggingColumn,
-//     draggingRow,
-//     editingCell,
-//     editingRow,
-//     globalFilterFn,
-//     grouping,
-//     hoveredColumn,
-//     hoveredRow,
-//     isFullScreen,
-//     pagination,
-//     showAlertBanner,
-//     showColumnFilters,
-//     showGlobalFilter,
-//     showToolbarDropZone,
-//     ...definedTableOptions.state,
-//   };
+  definedTableOptions.state = {
+    //     actionCell,
+    //     columnFilterFns,
+    //     columnOrder,
+    //     columnSizingInfo,
+    //     creatingRow,
+    //     density,
+    //     draggingColumn,
+    //     draggingRow,
+    //     editingCell,
+    //     editingRow,
+    //     globalFilterFn,
+    //     grouping,
+    //     hoveredColumn,
+    //     hoveredRow,
+    //     isFullScreen,
+    //     pagination,
+    //     showAlertBanner,
+    //     showColumnFilters,
+    //     showGlobalFilter,
+    //     showToolbarDropZone,
+    ...definedTableOptions.state,
+  };
 
   //The table options now include all state needed to help determine column visibility and order logic
-  //   const statefulTableOptions =
-  //     definedTableOptions as MRT_StatefulTableOptions<TData>;
+  const statefulTableOptions =
+    definedTableOptions as SRT_StatefulTableOptions<TData>;
 
   //   //don't recompute columnDefs while resizing column or dragging column/row
   //   const columnDefsRef = useRef<MRT_ColumnDef<TData>[]>([]);
@@ -180,57 +184,57 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   //   columnDefsRef.current = statefulTableOptions.columns;
 
   //if loading, generate blank rows to show skeleton loaders
-  //   statefulTableOptions.data = useMemo(
-  //     () =>
-  //       (statefulTableOptions.state.isLoading ||
-  //         statefulTableOptions.state.showSkeletons) &&
-  //       !statefulTableOptions.data.length
-  //         ? [
-  //             ...Array(
-  //               Math.min(statefulTableOptions.state.pagination.pageSize, 20),
-  //             ).fill(null),
-  //           ].map(() =>
-  //             Object.assign(
-  //               {},
-  //               ...getAllLeafColumnDefs(statefulTableOptions.columns).map(
-  //                 (col) => ({
-  //                   [getColumnId(col)]: null,
-  //                 }),
-  //               ),
-  //             ),
-  //           )
-  //         : statefulTableOptions.data,
-  //     [
-  //       statefulTableOptions.data,
-  //       statefulTableOptions.state.isLoading,
-  //       statefulTableOptions.state.showSkeletons,
-  //     ],
-  //   );
+  statefulTableOptions.data = useMemo(
+    () =>
+      (statefulTableOptions.state.isLoading ||
+        statefulTableOptions.state.showSkeletons) &&
+      !statefulTableOptions.data.length
+        ? [
+            ...Array(
+              Math.min(statefulTableOptions.state.pagination.pageSize, 20),
+            ).fill(null),
+          ].map(() =>
+            Object.assign(
+              {},
+              ...getAllLeafColumnDefs(statefulTableOptions.columns).map(
+                (col) => ({
+                  [getColumnId(col)]: null,
+                }),
+              ),
+            ),
+          )
+        : statefulTableOptions.data,
+    [
+      statefulTableOptions.data,
+      statefulTableOptions.state.isLoading,
+      statefulTableOptions.state.showSkeletons,
+    ],
+  );
 
-  //@ts-expect-error
-  //   const table = useReactTable({
-  //     onColumnOrderChange,
-  //     onColumnSizingInfoChange,
-  //     onGroupingChange,
-  //     onPaginationChange,
-  //     ...statefulTableOptions,
-  //     globalFilterFn: statefulTableOptions.filterFns?.[globalFilterFn ?? 'fuzzy'],
-  //   }) as MRT_TableInstance<TData>;
+  // @ts-expect-error
+  const table = useReactTable({
+    //     onColumnOrderChange,
+    //     onColumnSizingInfoChange,
+    //     onGroupingChange,
+    //     onPaginationChange,
+    ...statefulTableOptions,
+    //     globalFilterFn: statefulTableOptions.filterFns?.[globalFilterFn ?? 'fuzzy'],
+  }) as SRT_TableInstance<TData>;
 
-  //   table.refs = {
-  //     actionCellRef,
-  //     bottomToolbarRef,
-  //     editInputRefs,
-  //     filterInputRefs,
-  //     lastSelectedRowId,
-  //     searchInputRef,
-  //     tableContainerRef,
-  //     tableFooterRef,
-  //     tableHeadCellRefs,
-  //     tableHeadRef,
-  //     tablePaperRef,
-  //     topToolbarRef,
-  //   };
+  table.refs = {
+    // actionCellRef,
+    // bottomToolbarRef,
+    // editInputRefs,
+    // filterInputRefs,
+    lastSelectedRowId,
+    // searchInputRef,
+    tableContainerRef,
+    // tableFooterRef,
+    // tableHeadCellRefs,
+    tableHeadRef,
+    tablePaperRef,
+    // topToolbarRef,
+  };
 
   //   table.setActionCell =
   //     statefulTableOptions.onActionCellChange ?? setActionCell;
@@ -271,7 +275,7 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   //   table.setShowToolbarDropZone =
   //     statefulTableOptions.onShowToolbarDropZoneChange ?? setShowToolbarDropZone;
 
-  //   useMRT_Effects(table);
+  useSRT_Effects(table);
 
   return table;
 };
