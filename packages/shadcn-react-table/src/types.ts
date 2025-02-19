@@ -110,7 +110,7 @@ export type SRT_RowData = any;
 //   export type MRT_RowSelectionState = RowSelectionState;
 //   export type MRT_SortingState = SortingState;
 //   export type MRT_Updater<T> = Updater<T>;
-//   export type MRT_VirtualItem = VirtualItem;
+export type SRT_VirtualItem = VirtualItem;
 //   export type MRT_VisibilityState = VisibilityState;
 
 //   export type MRT_VirtualizerOptions<
@@ -118,21 +118,21 @@ export type SRT_RowData = any;
 //     TItemElement extends Element = Element,
 //   > = VirtualizerOptions<TScrollElement, TItemElement>;
 
-//   export type MRT_ColumnVirtualizer<
-//     TScrollElement extends Element | Window = HTMLDivElement,
-//     TItemElement extends Element = HTMLTableCellElement,
-//   > = Virtualizer<TScrollElement, TItemElement> & {
-//     virtualColumns: MRT_VirtualItem[];
-//     virtualPaddingLeft?: number;
-//     virtualPaddingRight?: number;
-//   };
+export type SRT_ColumnVirtualizer<
+  TScrollElement extends Element | Window = HTMLDivElement,
+  TItemElement extends Element = HTMLTableCellElement,
+> = Virtualizer<TScrollElement, TItemElement> & {
+  virtualColumns: SRT_VirtualItem[];
+  virtualPaddingLeft?: number;
+  virtualPaddingRight?: number;
+};
 
-//   export type MRT_RowVirtualizer<
-//     TScrollElement extends Element | Window = HTMLDivElement,
-//     TItemElement extends Element = HTMLTableRowElement,
-//   > = Virtualizer<TScrollElement, TItemElement> & {
-//     virtualRows: MRT_VirtualItem[];
-//   };
+export type SRT_RowVirtualizer<
+  TScrollElement extends Element | Window = HTMLDivElement,
+  TItemElement extends Element = HTMLTableRowElement,
+> = Virtualizer<TScrollElement, TItemElement> & {
+  virtualRows: SRT_VirtualItem[];
+};
 
 //   export type MRT_ColumnHelper<TData extends MRT_RowData> = {
 //     accessor: <
@@ -256,57 +256,58 @@ export type SRT_RowData = any;
 //     selectedRowBackgroundColor: string;
 //   }
 
-//   export interface MRT_RowModel<TData extends MRT_RowData> {
-//     flatRows: MRT_Row<TData>[];
-//     rows: MRT_Row<TData>[];
-//     rowsById: { [key: string]: MRT_Row<TData> };
-//   }
+export interface SRT_RowModel<TData extends SRT_RowData> {
+  flatRows: SRT_Row<TData>[];
+  rows: SRT_Row<TData>[];
+  rowsById: { [key: string]: SRT_Row<TData> };
+}
 
 export type SRT_TableInstance<TData extends SRT_RowData> = Omit<
   Table<TData>,
   | 'getAllColumns'
-  //     | 'getAllFlatColumns'
-  //     | 'getAllLeafColumns'
-  //     | 'getBottomRows'
-  //     | 'getCenterLeafColumns'
-  //     | 'getCenterRows'
+  | 'getAllFlatColumns'
+  | 'getAllLeafColumns'
+  | 'getBottomRows'
+  | 'getCenterLeafColumns'
+  | 'getCenterRows'
   | 'getColumn'
-  //     | 'getExpandedRowModel'
-  //     | 'getFlatHeaders'
-  //     | 'getFooterGroups'
-  //     | 'getHeaderGroups'
-  //     | 'getLeafHeaders'
-  //     | 'getLeftLeafColumns'
-  //     | 'getPaginationRowModel'
-  //     | 'getPreFilteredRowModel'
-  //     | 'getPrePaginationRowModel'
-  //     | 'getRightLeafColumns'
-  //     | 'getRowModel'
-  //     | 'getSelectedRowModel'
+  | 'getExpandedRowModel'
+  | 'getFlatHeaders'
+  | 'getFooterGroups'
+  | 'getHeaderGroups'
+  | 'getLeafHeaders'
+  | 'getLeftLeafColumns'
+  | 'getPaginationRowModel'
+  | 'getPreFilteredRowModel'
+  | 'getPrePaginationRowModel'
+  | 'getRightLeafColumns'
+  | 'getRowModel'
+  | 'getSelectedRowModel'
   | 'getState'
-  //     | 'getTopRows'
+  | 'getTopRows'
   | 'options'
 > & {
   getAllColumns: () => SRT_Column<TData>[];
-  //     getAllFlatColumns: () => MRT_Column<TData>[];
-  //     getAllLeafColumns: () => MRT_Column<TData>[];
-  //     getBottomRows: () => MRT_Row<TData>[];
-  //     getCenterLeafColumns: () => MRT_Column<TData>[];
-  //     getCenterRows: () => MRT_Row<TData>[];
+  getAllFlatColumns: () => SRT_Column<TData>[];
+  getAllLeafColumns: () => SRT_Column<TData>[];
+  getBottomRows: () => SRT_Row<TData>[];
+  getCenterLeafColumns: () => SRT_Column<TData>[];
+  getCenterRows: () => SRT_Row<TData>[];
   getColumn: (columnId: string) => SRT_Column<TData>;
-  //     getExpandedRowModel: () => MRT_RowModel<TData>;
-  //     getFlatHeaders: () => MRT_Header<TData>[];
-  //     getFooterGroups: () => MRT_HeaderGroup<TData>[];
-  //     getHeaderGroups: () => MRT_HeaderGroup<TData>[];
-  //     getLeafHeaders: () => MRT_Header<TData>[];
-  //     getLeftLeafColumns: () => MRT_Column<TData>[];
-  //     getPaginationRowModel: () => MRT_RowModel<TData>;
-  //     getPreFilteredRowModel: () => MRT_RowModel<TData>;
-  //     getPrePaginationRowModel: () => MRT_RowModel<TData>;
-  //     getRightLeafColumns: () => MRT_Column<TData>[];
-  //     getRowModel: () => MRT_RowModel<TData>;
-  //     getSelectedRowModel: () => MRT_RowModel<TData>;
+  getExpandedRowModel: () => SRT_RowModel<TData>;
+  getFlatHeaders: () => SRT_Header<TData>[];
+  getFooterGroups: () => SRT_HeaderGroup<TData>[];
+  getHeaderGroups: () => SRT_HeaderGroup<TData>[];
+  getLeafHeaders: () => SRT_Header<TData>[];
+  getLeftLeafColumns: () => SRT_Column<TData>[];
+  getPaginationRowModel: () => SRT_RowModel<TData>;
+  getPreFilteredRowModel: () => SRT_RowModel<TData>;
+  getPrePaginationRowModel: () => SRT_RowModel<TData>;
+  getRightLeafColumns: () => SRT_Column<TData>[];
+  getRowModel: () => SRT_RowModel<TData>;
+  getSelectedRowModel: () => SRT_RowModel<TData>;
   getState: () => SRT_TableState<TData>;
+  getTopRows: () => SRT_Row<TData>[];
   options: SRT_StatefulTableOptions<TData>;
   refs: {
     //       actionCellRef: RefObject<HTMLTableCellElement | null>;
@@ -337,7 +338,7 @@ export type SRT_TableInstance<TData extends SRT_RowData> = Omit<
   //     setShowAlertBanner: Dispatch<SetStateAction<boolean>>;
   //     setShowColumnFilters: Dispatch<SetStateAction<boolean>>;
   //     setShowGlobalFilter: Dispatch<SetStateAction<boolean>>;
-      // setShowToolbarDropZone: Dispatch<SetStateAction<boolean>>;
+  // setShowToolbarDropZone: Dispatch<SetStateAction<boolean>>;
 };
 
 export type SRT_DefinedTableOptions<TData extends SRT_RowData> =
@@ -369,7 +370,7 @@ export type SRT_StatefulTableOptions<TData extends SRT_RowData> =
       // | 'hoveredColumn'
       // | 'hoveredRow'
       // | 'isFullScreen'
-      | 'pagination'
+      // | 'pagination'
       // | 'showAlertBanner'
       // | 'showColumnFilters'
       // | 'showGlobalFilter'
@@ -387,7 +388,7 @@ export interface SRT_TableState<TData extends SRT_RowData> extends TableState {
   //     draggingRow: MRT_Row<TData> | null;
   //     editingCell: MRT_Cell<TData> | null;
   //     editingRow: MRT_Row<TData> | null;
-  //     globalFilterFn: MRT_FilterOption;
+  // globalFilterFn: SRT_FilterOption;
   //     hoveredColumn: Partial<MRT_Column<TData>> | null;
   //     hoveredRow: Partial<MRT_Row<TData>> | null;
   //     isFullScreen: boolean;
@@ -408,7 +409,7 @@ export interface SRT_ColumnDef<TData extends SRT_RowData, TValue = unknown>
     | 'accessorKey'
     //       | 'aggregatedCell'
     //       | 'aggregationFn'
-    //       | 'cell'
+    | 'cell'
     | 'columns'
     //       | 'filterFn'
     //       | 'footer'
@@ -442,8 +443,8 @@ export interface SRT_ColumnDef<TData extends SRT_RowData, TValue = unknown>
   //     }) => ReactNode;
   //     aggregationFn?: Array<MRT_AggregationFn<TData>> | MRT_AggregationFn<TData>;
   //     Cell?: (props: {
-  //       cell: MRT_Cell<TData, TValue>;
-  //       column: MRT_Column<TData, TValue>;
+  cell: SRT_Cell<TData, TValue>;
+  column: SRT_Column<TData, TValue>;
   //       renderedCellValue: ReactNode;
   //       row: MRT_Row<TData>;
   //       rowRef?: RefObject<HTMLTableRowElement | null>;
@@ -725,46 +726,46 @@ export type SRT_Column<TData extends SRT_RowData, TValue = unknown> = Omit<
 //     header: string;
 //   };
 
-//   export type MRT_Header<TData extends MRT_RowData> = Omit<
-//     Header<TData, unknown>,
-//     'column'
-//   > & {
-//     column: MRT_Column<TData>;
-//   };
+export type SRT_Header<TData extends SRT_RowData> = Omit<
+  Header<TData, unknown>,
+  'column'
+> & {
+  column: SRT_Column<TData>;
+};
 
-//   export type MRT_HeaderGroup<TData extends MRT_RowData> = Omit<
-//     HeaderGroup<TData>,
-//     'headers'
-//   > & {
-//     headers: MRT_Header<TData>[];
-//   };
+export type SRT_HeaderGroup<TData extends SRT_RowData> = Omit<
+  HeaderGroup<TData>,
+  'headers'
+> & {
+  headers: SRT_Header<TData>[];
+};
 
 export type SRT_Row<TData extends SRT_RowData> = Omit<
   Row<TData>,
-  //     | '_valuesCache'
-  //     | 'getAllCells'
-  //     | 'getParentRow'
-  //     | 'getParentRows'
+  | '_valuesCache'
+  | 'getAllCells'
+  | 'getParentRow'
+  | 'getParentRows'
   | 'getRow'
-  //     | 'getVisibleCells'
+  | 'getVisibleCells'
   | 'subRows'
 > & {
-  //     _valuesCache: Record<LiteralUnion<string & DeepKeys<TData>>, any>;
-  //     getAllCells: () => MRT_Cell<TData>[];
-  //     getParentRow: () => MRT_Row<TData> | null;
-  //     getParentRows: () => MRT_Row<TData>[];
+  _valuesCache: Record<LiteralUnion<string & DeepKeys<TData>>, any>;
+  getAllCells: () => SRT_Cell<TData>[];
+  getParentRow: () => SRT_Row<TData> | null;
+  getParentRows: () => SRT_Row<TData>[];
   getRow: () => SRT_Row<TData>;
-  //     getVisibleCells: () => MRT_Cell<TData>[];
+  getVisibleCells: () => SRT_Cell<TData>[];
   subRows?: SRT_Row<TData>[];
 };
 
-//   export type MRT_Cell<TData extends MRT_RowData, TValue = unknown> = Omit<
-//     Cell<TData, TValue>,
-//     'column' | 'row'
-//   > & {
-//     column: MRT_Column<TData, TValue>;
-//     row: MRT_Row<TData>;
-//   };
+export type SRT_Cell<TData extends SRT_RowData, TValue = unknown> = Omit<
+  Cell<TData, TValue>,
+  'column' | 'row'
+> & {
+  column: SRT_Column<TData, TValue>;
+  row: SRT_Row<TData>;
+};
 
 //   export type MRT_AggregationOption = string & keyof typeof MRT_AggregationFns;
 
@@ -819,12 +820,12 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
     | 'columns'
     | 'data'
     //       | 'defaultColumn'
-    //       | 'enableRowSelection'
+    | 'enableRowSelection'
     //       | 'expandRowsFn'
     | 'getRowId'
     //       | 'globalFilterFn'
     //       | 'initialState'
-    //       | 'onStateChange'
+    | 'onStateChange'
     | 'state'
   > {
   //     columnFilterDisplayMode?: 'custom' | 'popover' | 'subheader';
@@ -832,12 +833,12 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //       LiteralUnion<string & MRT_FilterOption>
   //     > | null;
   columns: SRT_ColumnDef<TData, any>[];
-  //     columnVirtualizerInstanceRef?: RefObject<MRT_ColumnVirtualizer | null>;
-  //     columnVirtualizerOptions?:
-  //       | ((props: {
-  //           table: MRT_TableInstance<TData>;
-  //         }) => Partial<VirtualizerOptions<HTMLDivElement, HTMLTableCellElement>>)
-  //       | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableCellElement>>;
+  columnVirtualizerInstanceRef?: RefObject<SRT_ColumnVirtualizer | null>;
+  columnVirtualizerOptions?:
+    | ((props: {
+        table: SRT_TableInstance<TData>;
+      }) => Partial<VirtualizerOptions<HTMLDivElement, HTMLTableCellElement>>)
+    | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableCellElement>>;
   //     createDisplayMode?: 'custom' | 'modal' | 'row';
   data: TData[];
   //     /**
@@ -878,7 +879,7 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //     enableRowDragging?: boolean;
   //     enableRowNumbers?: boolean;
   //     enableRowOrdering?: boolean;
-  //     enableRowSelection?: ((row: MRT_Row<TData>) => boolean) | boolean;
+  enableRowSelection?: ((row: SRT_Row<TData>) => boolean) | boolean;
   enableRowVirtualization?: boolean;
   //     enableSelectAll?: boolean;
   //     enableStickyFooter?: boolean;
@@ -909,13 +910,13 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //      * @link https://www.material-react-table.com/docs/guides/localization
   //      */
   //     localization?: Partial<MRT_Localization>;
-  //     /**
-  //      * Memoize cells, rows, or the entire table body to potentially improve render performance.
-  //      *
-  //      * @warning This will break some dynamic rendering features. See the memoization guide for more info:
-  //      * @link https://www.material-react-table.com/docs/guides/memoize-components
-  //      */
-  //     memoMode?: 'cells' | 'rows' | 'table-body';
+  /**
+   * Memoize cells, rows, or the entire table body to potentially improve render performance.
+   *
+   * @warning This will break some dynamic rendering features. See the memoization guide for more info:
+   * @link https://www.material-react-table.com/docs/guides/memoize-components
+   */
+  memoMode?: 'cells' | 'rows' | 'table-body';
   //     mrtTheme?: ((theme: Theme) => Partial<MRT_Theme>) | Partial<MRT_Theme>;
   //     muiBottomToolbarProps?:
   //       | ((props: { table: MRT_TableInstance<TData> }) => BoxProps)
@@ -1233,9 +1234,9 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //       row: MRT_Row<TData>;
   //       table: MRT_TableInstance<TData>;
   //     }) => ReactNode;
-  //     renderEmptyRowsFallback?: (props: {
-  //       table: MRT_TableInstance<TData>;
-  //     }) => ReactNode;
+  renderEmptyRowsFallback?: (props: {
+    table: SRT_TableInstance<TData>;
+  }) => ReactNode;
   //     renderGlobalFilterModeMenuItems?: (props: {
   //       internalFilterOptions: MRT_InternalFilterOption[];
   //       onSelectFilterMode: (filterMode: MRT_FilterOption) => void;
@@ -1268,21 +1269,21 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //       table: MRT_TableInstance<TData>;
   //     }) => ReactNode;
   //     rowNumberDisplayMode?: 'original' | 'static';
-  //     rowPinningDisplayMode?:
-  //       | 'bottom'
-  //       | 'select-bottom'
-  //       | 'select-sticky'
-  //       | 'select-top'
-  //       | 'sticky'
-  //       | 'top'
-  //       | 'top-and-bottom';
-  //     rowVirtualizerInstanceRef?: RefObject<MRT_RowVirtualizer | null>;
-  //     rowVirtualizerOptions?:
-  //       | ((props: {
-  //           table: MRT_TableInstance<TData>;
-  //         }) => Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>)
-  //       | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>;
-  //     selectAllMode?: 'all' | 'page';
+  rowPinningDisplayMode?:
+    | 'bottom'
+    | 'select-bottom'
+    | 'select-sticky'
+    | 'select-top'
+    | 'sticky'
+    | 'top'
+    | 'top-and-bottom';
+  rowVirtualizerInstanceRef?: RefObject<SRT_RowVirtualizer | null>;
+  rowVirtualizerOptions?:
+    | ((props: {
+        table: SRT_TableInstance<TData>;
+      }) => Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>)
+    | Partial<VirtualizerOptions<HTMLDivElement, HTMLTableRowElement>>;
+  selectAllMode?: 'all' | 'page';
   /**
    * Manage state externally any way you want, then pass it back into MRT.
    */

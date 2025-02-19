@@ -16,8 +16,11 @@ export const useSRT_Effects = <TData extends SRT_RowData>(
     getIsSomeRowsPinned,
     //     getPrePaginationRowModel,
     getState,
-    //     options: { enablePagination, enableRowPinning, rowCount },
-    options: { enableRowPinning, rowCount },
+    options: {
+      // enablePagination,
+      enableRowPinning,
+      rowCount,
+    },
   } = table;
   const {
     columnOrder,

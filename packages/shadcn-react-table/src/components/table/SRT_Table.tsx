@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { Table } from '../ui/table';
 import { type SRT_RowData, type SRT_TableInstance } from '../../types';
 import { parseCSSVarId } from '../../utils/style.utils';
+import { Memo_SRT_TableBody, SRT_TableBody } from '../body/SRT_TableBody';
+import { useSRT_ColumnVirtualizer } from '../../hooks/useSRT_ColumnVirtualizer';
 
 type TableProps = React.HTMLAttributes<HTMLTableElement>;
 
@@ -22,7 +24,7 @@ export const SRT_Table = <TData extends SRT_RowData>({
       //   enableTableFooter,
       //   enableTableHead,
       //   layoutMode,
-      //   memoMode,
+        memoMode,
       //   muiTableProps,
       //   renderCaption,
     },
@@ -41,30 +43,30 @@ export const SRT_Table = <TData extends SRT_RowData>({
 
   //   const Caption = parseFromValuesOrFunc(renderCaption, { table });
 
-    const columnSizeVars = useMemo(() => {
-      const headers = getFlatHeaders();
-      const colSizes: { [key: string]: number } = {};
-      for (let i = 0; i < headers.length; i++) {
-        const header = headers[i];
-        const colSize = header.getSize();
-        colSizes[`--header-${parseCSSVarId(header.id)}-size`] = colSize;
-        colSizes[`--col-${parseCSSVarId(header.column.id)}-size`] = colSize;
-      }
-      return colSizes;
-    }, [columns, columnSizing, columnSizingInfo, columnVisibility]);
+  const columnSizeVars = useMemo(() => {
+    const headers = getFlatHeaders();
+    const colSizes: { [key: string]: number } = {};
+    for (let i = 0; i < headers.length; i++) {
+      const header = headers[i];
+      const colSize = header.getSize();
+      colSizes[`--header-${parseCSSVarId(header.id)}-size`] = colSize;
+      colSizes[`--col-${parseCSSVarId(header.column.id)}-size`] = colSize;
+    }
+    return colSizes;
+  }, [columns, columnSizing, columnSizingInfo, columnVisibility]);
 
-  //   const columnVirtualizer = useSRT_ColumnVirtualizer(table);
+    const columnVirtualizer = useSRT_ColumnVirtualizer(table);
 
-  //   const commonTableGroupProps = {
-  //     columnVirtualizer,
-  //     table,
-  //   };
+    const commonTableGroupProps = {
+      columnVirtualizer,
+      table,
+    };
 
   return (
     <Table
       //   stickyHeader={enableStickyHeader || isFullScreen}
       {...tableProps}
-      //   style={{ ...columnSizeVars, ...tableProps?.style }}
+      style={{ ...columnSizeVars, ...tableProps?.style }} // TODO: apply styles
       //   sx={(theme) => ({
       //     borderCollapse: 'separate',
       //     display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
@@ -74,11 +76,11 @@ export const SRT_Table = <TData extends SRT_RowData>({
     >
       {/* {!!Caption && <caption>{Caption}</caption>} */}
       {/* {enableTableHead && <SRT_TableHead {...commonTableGroupProps} />} */}
-      {/* {memoMode === 'table-body' || columnSizingInfo.isResizingColumn ? (
+      {memoMode === 'table-body' || columnSizingInfo.isResizingColumn ? ( // memoization may break some functionality
         <Memo_SRT_TableBody {...commonTableGroupProps} />
       ) : (
         <SRT_TableBody {...commonTableGroupProps} />
-      )} */}
+      )}
       {/* {enableTableFooter && <SRT_TableFooter {...commonTableGroupProps} />} */}
     </Table>
   );

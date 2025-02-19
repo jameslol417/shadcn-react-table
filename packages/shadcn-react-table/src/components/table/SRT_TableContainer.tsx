@@ -75,7 +75,7 @@ export const SRT_TableContainer = <TData extends SRT_RowData>({
   return (
     <div
       aria-busy={loading}
-      aria-describedby={loading ? 'mrt-progress' : undefined}
+      aria-describedby={loading ? 'srt-progress' : undefined}
       {...tableContainerProps}
       ref={(node: HTMLDivElement) => {
         if (node) {
