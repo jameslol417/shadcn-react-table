@@ -1,5 +1,6 @@
 {
-    "name": "shadcn-react-table",
+    "name": "shadcn-react-table-vite",
+    "type": "module",
     "private": true,
     "workspaces": [
       "apps/*",

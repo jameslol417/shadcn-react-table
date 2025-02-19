@@ -7,7 +7,7 @@ import {
   type SRT_StatefulTableOptions,
 } from '../types';
 import { useSRT_Effects } from './useSRT_Effects';
-import { getAllLeafColumnDefs, getColumnId } from '../utils/columns.utils';
+import { getAllLeafColumnDefs, getColumnId } from '../utils/column.utils';
 
 /**
  * The SRT hook that wraps the TanStack useReactTable hook and adds additional functionality

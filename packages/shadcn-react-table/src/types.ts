@@ -443,8 +443,8 @@ export interface SRT_ColumnDef<TData extends SRT_RowData, TValue = unknown>
   //     }) => ReactNode;
   //     aggregationFn?: Array<MRT_AggregationFn<TData>> | MRT_AggregationFn<TData>;
   //     Cell?: (props: {
-  cell: SRT_Cell<TData, TValue>;
-  column: SRT_Column<TData, TValue>;
+  // cell: SRT_Cell<TData, TValue>;
+  // column: SRT_Column<TData, TValue>;
   //       renderedCellValue: ReactNode;
   //       row: MRT_Row<TData>;
   //       rowRef?: RefObject<HTMLTableRowElement | null>;

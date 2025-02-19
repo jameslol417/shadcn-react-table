@@ -4,6 +4,7 @@ import {
   type SRT_RowData,
   type SRT_TableInstance,
 } from '../types';
+import { parseFromValuesOrFunc } from './utils';
 
 export const getSRT_Rows = <TData extends SRT_RowData>(
   table: SRT_TableInstance<TData>,
