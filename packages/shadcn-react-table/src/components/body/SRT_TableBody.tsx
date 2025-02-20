@@ -191,11 +191,10 @@ export const SRT_TableBody = <TData extends SRT_RowData>({
         getIsSomeRowsPinned('bottom') && (
           <TableBody
             {...tableBodyProps}
+            className='z-1 sticky'
             // sx={(theme) => ({
             //   bottom: tableFooterHeight - 1,
             //   display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
-            //   position: 'sticky',
-            //   zIndex: 1,
             //   ...(parseFromValuesOrFunc(tableBodyProps?.sx, theme) as any),
             // })}
           >

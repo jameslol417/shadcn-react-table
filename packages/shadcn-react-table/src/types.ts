@@ -318,7 +318,7 @@ export type SRT_TableInstance<TData extends SRT_RowData> = Omit<
     //       searchInputRef: RefObject<HTMLInputElement | null>;
     tableContainerRef: RefObject<HTMLDivElement | null>;
     //       tableFooterRef: RefObject<HTMLTableSectionElement | null>;
-    //       tableHeadCellRefs: RefObject<Record<string, HTMLTableCellElement> | null>;
+    tableHeadCellRefs: RefObject<Record<string, HTMLTableCellElement> | null>;
     tableHeadRef: RefObject<HTMLTableSectionElement | null>;
     tablePaperRef: RefObject<HTMLDivElement | null>;
     //       topToolbarRef: RefObject<HTMLDivElement | null>;
@@ -370,7 +370,7 @@ export type SRT_StatefulTableOptions<TData extends SRT_RowData> =
       // | 'hoveredColumn'
       // | 'hoveredRow'
       // | 'isFullScreen'
-      // | 'pagination'
+      | 'pagination'
       // | 'showAlertBanner'
       // | 'showColumnFilters'
       // | 'showGlobalFilter'
@@ -885,7 +885,7 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //     enableStickyFooter?: boolean;
   //     enableStickyHeader?: boolean;
   //     enableTableFooter?: boolean;
-  //     enableTableHead?: boolean;
+  enableTableHead?: boolean;
   //     enableToolbarInternalActions?: boolean;
   //     enableTopToolbar?: boolean;
   //     expandRowsFn?: (dataRow: TData) => TData[];

@@ -5,6 +5,7 @@ import {
   type SRT_DefinedTableOptions,
   type SRT_TableInstance,
   type SRT_StatefulTableOptions,
+  type SRT_ColumnDef,
 } from '../types';
 import { useSRT_Effects } from './useSRT_Effects';
 import { getAllLeafColumnDefs, getColumnId } from '../utils/column.utils';
@@ -24,7 +25,7 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   //   const filterInputRefs = useRef<Record<string, HTMLInputElement>>({});
   //   const searchInputRef = useRef<HTMLInputElement>(null);
     const tableContainerRef = useRef<HTMLDivElement>(null);
-  //   const tableHeadCellRefs = useRef<Record<string, HTMLTableCellElement>>({});
+    const tableHeadCellRefs = useRef<Record<string, HTMLTableCellElement>>({});
     const tablePaperRef = useRef<HTMLDivElement>(null);
   //   const topToolbarRef = useRef<HTMLDivElement>(null);
     const tableHeadRef = useRef<HTMLTableSectionElement>(null);
@@ -151,7 +152,7 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
     definedTableOptions as SRT_StatefulTableOptions<TData>;
 
   //   //don't recompute columnDefs while resizing column or dragging column/row
-  //   const columnDefsRef = useRef<MRT_ColumnDef<TData>[]>([]);
+    const columnDefsRef = useRef<SRT_ColumnDef<TData>[]>([]);
   //   statefulTableOptions.columns =
   //     statefulTableOptions.state.columnSizingInfo.isResizingColumn ||
   //     statefulTableOptions.state.draggingColumn ||
@@ -230,7 +231,7 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
     // searchInputRef,
     tableContainerRef,
     // tableFooterRef,
-    // tableHeadCellRefs,
+    tableHeadCellRefs,
     tableHeadRef,
     tablePaperRef,
     // topToolbarRef,
