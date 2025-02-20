@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { cn } from '../../utils/tailwind'
 
+// TODO: migrate to React 19 standards
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>

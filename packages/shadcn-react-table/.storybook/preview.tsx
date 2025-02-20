@@ -8,7 +8,7 @@
 // import { LocalizationProvider } from '@mui/x-date-pickers';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { CssBaseline } from '@mui/material';
-import '../src/styles/global.css'
+import './tailwind.css'
 
 // const channel = addons.getChannel();
 

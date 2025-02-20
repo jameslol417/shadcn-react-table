@@ -2,12 +2,13 @@
     "include": [
       "src",
       "@types/node",
-      "stories"
+      "stories",   
     ],
     "compilerOptions": {
       "declaration": true,
-      "declarationDir": "types",
+      "declarationDir": "dist/types",
       "emitDeclarationOnly": true,
+      "resolveJsonModule": true,
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "importHelpers": true,

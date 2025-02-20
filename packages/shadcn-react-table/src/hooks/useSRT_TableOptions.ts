@@ -1,5 +1,16 @@
 import { useId, useMemo } from 'react';
 import {
+  getCoreRowModel,
+  getExpandedRowModel,
+  getFacetedMinMaxValues,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getGroupedRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+} from '@tanstack/react-table';
+import {
   type SRT_TableOptions,
   type SRT_RowData,
   type SRT_DefinedTableOptions,
@@ -203,7 +214,7 @@ id = useId(),
     // enableToolbarInternalActions,
     // enableTopToolbar,
     // filterFns,
-    // getCoreRowModel: getCoreRowModel(),
+    getCoreRowModel: getCoreRowModel(),
     // getExpandedRowModel:
     //   enableExpanding || enableGrouping ? getExpandedRowModel() : undefined,
     // getFacetedMinMaxValues: enableFacetedValues
