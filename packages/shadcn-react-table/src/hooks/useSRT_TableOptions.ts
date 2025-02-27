@@ -40,142 +40,141 @@ import {
 
 export const useSRT_TableOptions: <TData extends SRT_RowData>(
   tableOptions: SRT_TableOptions<TData>,
-) => SRT_DefinedTableOptions<TData> = <
-  TData extends SRT_RowData,
->({ // aggregationFns,
-// autoResetExpanded = false,
-// columnFilterDisplayMode = 'subheader',
-// columnResizeDirection,
-// columnResizeMode = 'onChange',
-// createDisplayMode = 'modal',
-// defaultColumn,
-// defaultDisplayColumn,
-// editDisplayMode = 'modal',
-// enableBatchRowSelection = true,
-// enableBottomToolbar = true,
-// enableColumnActions = true,
-// enableColumnFilters = true,
-// enableColumnOrdering = false,
-// enableColumnPinning = false,
-// enableColumnResizing = false,
-enableColumnVirtualization,
-// enableDensityToggle = true,
-// enableExpandAll = true,
-// enableExpanding,
-// enableFacetedValues = false,
-// enableFilterMatchHighlighting = true,
-// enableFilters = true,
-// enableFullScreenToggle = true,
-// enableGlobalFilter = true,
-// enableGlobalFilterRankedResults = true,
-// enableGrouping = false,
-// enableHiding = true,
-// enableKeyboardShortcuts = true,
-// enableMultiRowSelection = true,
-// enableMultiSort = true,
-// enablePagination = true,
-// enableRowPinning = false,
-// enableRowSelection = false,
-enableRowVirtualization,
-// enableSelectAll = true,
-// enableSorting = true,
-// enableStickyHeader = false,
-// enableTableFooter = true,
-enableTableHead = true,
-// enableToolbarInternalActions = true,
-// enableTopToolbar = true,
-// filterFns,
-// icons,
-id = useId(),
-// layoutMode,
-// localization,
-// manualFiltering,
-// manualGrouping,
-// manualPagination,
-// manualSorting,
-// mrtTheme,
-// paginationDisplayMode = 'default',
-// positionActionsColumn = 'first',
-// positionCreatingRow = 'top',
-// positionExpandColumn = 'first',
-// positionGlobalFilter = 'right',
-// positionPagination = 'bottom',
-// positionToolbarAlertBanner = 'top',
-// positionToolbarDropZone = 'top',
-// rowNumberDisplayMode = 'static',
-// rowPinningDisplayMode = 'sticky',
-// selectAllMode = 'page',
-// sortingFns,
-...rest
-}:SRT_TableOptions<TData>) => {
-//   const theme = useTheme();
+) => SRT_DefinedTableOptions<TData> = <TData extends SRT_RowData>({
+  // aggregationFns,
+  // autoResetExpanded = false,
+  // columnFilterDisplayMode = 'subheader',
+  columnResizeDirection,
+  columnResizeMode = 'onChange',
+  // createDisplayMode = 'modal',
+  // defaultColumn,
+  // defaultDisplayColumn,
+  // editDisplayMode = 'modal',
+  // enableBatchRowSelection = true,
+  // enableBottomToolbar = true,
+  // enableColumnActions = true,
+  // enableColumnFilters = true,
+  // enableColumnOrdering = false,
+  // enableColumnPinning = false,
+  enableColumnResizing = true, // different from MRT
+  enableColumnVirtualization,
+  // enableDensityToggle = true,
+  // enableExpandAll = true,
+  // enableExpanding,
+  // enableFacetedValues = false,
+  // enableFilterMatchHighlighting = true,
+  // enableFilters = true,
+  // enableFullScreenToggle = true,
+  // enableGlobalFilter = true,
+  // enableGlobalFilterRankedResults = true,
+  // enableGrouping = false,
+  // enableHiding = true,
+  // enableKeyboardShortcuts = true,
+  // enableMultiRowSelection = true,
+  // enableMultiSort = true,
+  // enablePagination = true,
+  // enableRowPinning = false,
+  enableRowSelection = true, // different from MRT
+  enableRowVirtualization,
+  // enableSelectAll = true,
+  // enableSorting = true,
+  // enableStickyHeader = false,
+  // enableTableFooter = true,
+  enableTableHead = true,
+  // enableToolbarInternalActions = true,
+  // enableTopToolbar = true,
+  // filterFns,
+  // icons,
+  id = useId(),
+  // layoutMode,
+  // localization,
+  // manualFiltering,
+  // manualGrouping,
+  // manualPagination,
+  // manualSorting,
+  // mrtTheme,
+  // paginationDisplayMode = 'default',
+  // positionActionsColumn = 'first',
+  // positionCreatingRow = 'top',
+  // positionExpandColumn = 'first',
+  // positionGlobalFilter = 'right',
+  // positionPagination = 'bottom',
+  // positionToolbarAlertBanner = 'top',
+  // positionToolbarDropZone = 'top',
+  // rowNumberDisplayMode = 'static',
+  // rowPinningDisplayMode = 'sticky',
+  // selectAllMode = 'page',
+  // sortingFns,
+  ...rest
+}: SRT_TableOptions<TData>) => {
+  //   const theme = useTheme();
 
-//   icons = useMemo(() => ({ ...MRT_Default_Icons, ...icons }), [icons]);
-//   localization = useMemo(
-//     () => ({
-//       ...MRT_Localization_EN,
-//       ...localization,
-//     }),
-//     [localization],
-//   );
-//   mrtTheme = useMemo(() => getMRTTheme(mrtTheme, theme), [mrtTheme, theme]);
-//   aggregationFns = useMemo(
-//     () => ({ ...MRT_AggregationFns, ...aggregationFns }),
-//     [],
-//   );
-//   filterFns = useMemo(() => ({ ...MRT_FilterFns, ...filterFns }), []);
-//   sortingFns = useMemo(() => ({ ...MRT_SortingFns, ...sortingFns }), []);
-//   defaultColumn = useMemo(
-//     () => ({ ...MRT_DefaultColumn, ...defaultColumn }),
-//     [defaultColumn],
-//   );
-//   defaultDisplayColumn = useMemo(
-//     () => ({
-//       ...MRT_DefaultDisplayColumn,
-//       ...defaultDisplayColumn,
-//     }),
-//     [defaultDisplayColumn],
-//   );
+  //   icons = useMemo(() => ({ ...MRT_Default_Icons, ...icons }), [icons]);
+  //   localization = useMemo(
+  //     () => ({
+  //       ...MRT_Localization_EN,
+  //       ...localization,
+  //     }),
+  //     [localization],
+  //   );
+  //   mrtTheme = useMemo(() => getMRTTheme(mrtTheme, theme), [mrtTheme, theme]);
+  //   aggregationFns = useMemo(
+  //     () => ({ ...MRT_AggregationFns, ...aggregationFns }),
+  //     [],
+  //   );
+  //   filterFns = useMemo(() => ({ ...MRT_FilterFns, ...filterFns }), []);
+  //   sortingFns = useMemo(() => ({ ...MRT_SortingFns, ...sortingFns }), []);
+  //   defaultColumn = useMemo(
+  //     () => ({ ...MRT_DefaultColumn, ...defaultColumn }),
+  //     [defaultColumn],
+  //   );
+  //   defaultDisplayColumn = useMemo(
+  //     () => ({
+  //       ...MRT_DefaultDisplayColumn,
+  //       ...defaultDisplayColumn,
+  //     }),
+  //     [defaultDisplayColumn],
+  //   );
   //cannot be changed after initialization
   [enableColumnVirtualization, enableRowVirtualization] = useMemo(
     () => [enableColumnVirtualization, enableRowVirtualization],
     [],
   );
 
-//   if (!columnResizeDirection) {
-//     columnResizeDirection = theme.direction || 'ltr';
-//   }
+  //   if (!columnResizeDirection) {
+  //     columnResizeDirection = theme.direction || 'ltr';
+  //   }
 
-//   layoutMode =
-//     layoutMode || (enableColumnResizing ? 'grid-no-grow' : 'semantic');
-//   if (
-//     layoutMode === 'semantic' &&
-//     (enableRowVirtualization || enableColumnVirtualization)
-//   ) {
-//     layoutMode = 'grid';
-//   }
+  //   layoutMode =
+  //     layoutMode || (enableColumnResizing ? 'grid-no-grow' : 'semantic');
+  //   if (
+  //     layoutMode === 'semantic' &&
+  //     (enableRowVirtualization || enableColumnVirtualization)
+  //   ) {
+  //     layoutMode = 'grid';
+  //   }
 
-//   if (enableRowVirtualization) {
-//     enableStickyHeader = true;
-//   }
+  //   if (enableRowVirtualization) {
+  //     enableStickyHeader = true;
+  //   }
 
-//   if (enablePagination === false && manualPagination === undefined) {
-//     manualPagination = true;
-//   }
+  //   if (enablePagination === false && manualPagination === undefined) {
+  //     manualPagination = true;
+  //   }
 
-//   if (!rest.data?.length) {
-//     manualFiltering = true;
-//     manualGrouping = true;
-//     manualPagination = true;
-//     manualSorting = true;
-//   }
+  //   if (!rest.data?.length) {
+  //     manualFiltering = true;
+  //     manualGrouping = true;
+  //     manualPagination = true;
+  //     manualSorting = true;
+  //   }
 
   return {
     // aggregationFns,
     // autoResetExpanded,
     // columnFilterDisplayMode,
-    // columnResizeDirection,
-    // columnResizeMode,
+    columnResizeDirection,
+    columnResizeMode,
     // createDisplayMode,
     // defaultColumn,
     // defaultDisplayColumn,
@@ -186,7 +185,7 @@ id = useId(),
     // enableColumnFilters,
     // enableColumnOrdering,
     // enableColumnPinning,
-    // enableColumnResizing,
+    enableColumnResizing,
     enableColumnVirtualization,
     // enableDensityToggle,
     // enableExpandAll,
@@ -204,7 +203,7 @@ id = useId(),
     // enableMultiSort,
     // enablePagination,
     // enableRowPinning,
-    // enableRowSelection,
+    enableRowSelection,
     enableRowVirtualization,
     // enableSelectAll,
     // enableSorting,

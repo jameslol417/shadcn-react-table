@@ -31,8 +31,10 @@ export const SRT_TableHeadCellResizeHandle = <TData extends SRT_RowData>({
   //     : density === 'comfortable'
   //       ? '-16px'
   //       : '-24px';
+  const mx = '-16px'
 
   // const lr = column.columnDef.columnDefType === 'display' ? '4px' : '0';
+  const lr = '0'
 
   return (
     <div
@@ -55,13 +57,8 @@ export const SRT_TableHeadCellResizeHandle = <TData extends SRT_RowData>({
             : undefined,
       }}
       className={cn(
-        'TableHeadCell-ResizeHandle-Wrapper absolute px-1 cursor-col-resize',
-        {
-          'left-[var(--lr)]': columnResizeDirection === 'rtl',
-          'ml-[var(--mx)]': columnResizeDirection === 'rtl',
-          'mr-[var(--mx)]': columnResizeDirection === 'ltr',
-          'right-[var(--lr)]': columnResizeDirection === 'ltr',
-        },
+        'TableHeadCell-ResizeHandle-Wrapper px-1 cursor-col-resize absolute',
+         columnResizeDirection === 'rtl' ? 'left-0 ml-[-16px]' : 'right-0 mr-[-16px]',
       )}
     >
       <div

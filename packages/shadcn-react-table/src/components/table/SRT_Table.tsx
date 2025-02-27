@@ -5,6 +5,7 @@ import { parseCSSVarId } from '../../utils/style.utils';
 import { Memo_SRT_TableBody, SRT_TableBody } from '../body/SRT_TableBody';
 import { SRT_TableHead } from '../head/SRT_TableHead';
 import { useSRT_ColumnVirtualizer } from '../../hooks/useSRT_ColumnVirtualizer';
+import { cn } from '../../utils/tailwind';
 
 type TableProps = React.HTMLAttributes<HTMLTableElement>;
 
@@ -23,9 +24,9 @@ export const SRT_Table = <TData extends SRT_RowData>({
       columns,
       //   enableStickyHeader,
       //   enableTableFooter,
-        enableTableHead,
+      enableTableHead,
       //   layoutMode,
-        memoMode,
+      memoMode,
       //   muiTableProps,
       //   renderCaption,
     },
@@ -56,24 +57,23 @@ export const SRT_Table = <TData extends SRT_RowData>({
     return colSizes;
   }, [columns, columnSizing, columnSizingInfo, columnVisibility]);
 
-    const columnVirtualizer = useSRT_ColumnVirtualizer(table);
+  const columnVirtualizer = useSRT_ColumnVirtualizer(table);
 
-    const commonTableGroupProps = {
-      columnVirtualizer,
-      table,
-    };
+  const commonTableGroupProps = {
+    columnVirtualizer,
+    table,
+  };
 
   return (
     <Table
       //   stickyHeader={enableStickyHeader || isFullScreen}
       {...tableProps}
       style={{ ...columnSizeVars, ...tableProps?.style }} // TODO: apply styles
-      //   sx={(theme) => ({
-      //     borderCollapse: 'separate',
-      //     display: layoutMode?.startsWith('grid') ? 'grid' : undefined,
-      //     position: 'relative',
-      //     ...(parseFromValuesOrFunc(tableProps?.sx, theme) as any),
-      //   })}
+      className={cn(
+        'relative border-separate',
+        //layoutMode?.startsWith('grid') ? 'grid' : '',
+        //...(parseFromValuesOrFunc(tableProps?.sx, theme) as any),
+      )}
     >
       {/* {!!Caption && <caption>{Caption}</caption>} */}
       {enableTableHead && <SRT_TableHead {...commonTableGroupProps} />}

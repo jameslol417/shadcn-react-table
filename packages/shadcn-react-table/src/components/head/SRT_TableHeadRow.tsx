@@ -9,6 +9,7 @@ import {
   type SRT_TableInstance,
   type SRT_VirtualItem,
 } from '../../types';
+import { cn } from '../../utils/tailwind';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { TableRow } from '../ui/table';
 import { SRT_TableHeadCell } from './SRT_TableHeadCell';
@@ -30,10 +31,10 @@ export const SRT_TableHeadRow = <TData extends SRT_RowData>({
 }: SRT_TableHeadRowProps<TData>) => {
   const {
     options: {
-    //   enableStickyHeader,
-    //   layoutMode,
-    //   mrtTheme: { baseBackgroundColor },
-    //   muiTableHeadRowProps,
+      //   enableStickyHeader,
+      // layoutMode,
+      //   mrtTheme: { baseBackgroundColor },
+      //   muiTableHeadRowProps,
     },
   } = table;
 
@@ -51,17 +52,19 @@ export const SRT_TableHeadRow = <TData extends SRT_RowData>({
   return (
     <TableRow
       {...tableRowProps}
-    //   sx={(theme) => ({
-    //     backgroundColor: baseBackgroundColor,
-    //     boxShadow: `4px 0 8px ${alpha(theme.palette.common.black, 0.1)}`,
-    //     display: layoutMode?.startsWith('grid') ? 'flex' : undefined,
-    //     position:
-    //       enableStickyHeader && layoutMode === 'semantic'
-    //         ? 'sticky'
-    //         : 'relative',
-    //     top: 0,
-    //     ...(parseFromValuesOrFunc(tableRowProps?.sx, theme) as any),
-    //   })}
+      className={cn(
+        // layoutMode?.startsWith('grid') ? 'flex' : '',
+        'top-0',
+      )}
+      //   sx={(theme) => ({
+      //     backgroundColor: baseBackgroundColor,
+      //     boxShadow: `4px 0 8px ${alpha(theme.palette.common.black, 0.1)}`,
+      //     position:
+      //       enableStickyHeader && layoutMode === 'semantic'
+      //         ? 'sticky'
+      //         : 'relative',
+      //     ...(parseFromValuesOrFunc(tableRowProps?.sx, theme) as any),
+      //   })}
     >
       {virtualPaddingLeft ? (
         <th style={{ display: 'flex', width: virtualPaddingLeft }} />

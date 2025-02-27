@@ -1,4 +1,4 @@
-// import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 // import {
 //   type MRT_RowData,
 //   type MRT_SortingState,
@@ -36,14 +36,14 @@ export const useSRT_Effects = <TData extends SRT_RowData>(
   // const totalRowCount = rowCount ?? getPrePaginationRowModel().rows.length;
 
   // const rerender = useReducer(() => ({}), {})[1];
-  // const initialBodyHeight = useRef<string>(null);
+  const initialBodyHeight = useRef<string>(null);
   // const previousTop = useRef<number>(null);
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     initialBodyHeight.current = document.body.style.height;
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      initialBodyHeight.current = document.body.style.height;
+    }
+  }, []);
 
   // //hide scrollbars when table is in full screen mode, preserve body scroll position after full screen exit
   // useEffect(() => {

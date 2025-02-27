@@ -102,12 +102,12 @@ export type SRT_RowData = any;
 //   export type MRT_ColumnFiltersState = ColumnFiltersState;
 //   export type MRT_ColumnOrderState = ColumnOrderState;
 //   export type MRT_ColumnPinningState = ColumnPinningState;
-//   export type MRT_ColumnSizingInfoState = ColumnSizingInfoState;
+export type SRT_ColumnSizingInfoState = ColumnSizingInfoState;
 //   export type MRT_ColumnSizingState = ColumnSizingState;
 //   export type MRT_ExpandedState = ExpandedState;
 //   export type MRT_GroupingState = GroupingState;
 //   export type MRT_PaginationState = PaginationState;
-//   export type MRT_RowSelectionState = RowSelectionState;
+export type SRT_RowSelectionState = RowSelectionState;
 //   export type MRT_SortingState = SortingState;
 //   export type MRT_Updater<T> = Updater<T>;
 export type SRT_VirtualItem = VirtualItem;
@@ -824,7 +824,7 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
     //       | 'expandRowsFn'
     | 'getRowId'
     //       | 'globalFilterFn'
-    //       | 'initialState'
+    | 'initialState'
     | 'onStateChange'
     | 'state'
   > {
@@ -898,7 +898,7 @@ export interface SRT_TableOptions<TData extends SRT_RowData>
   //     globalFilterModeOptions?: MRT_FilterOption[] | null;
   //     icons?: Partial<MRT_Icons>;
   id?: string;
-  //     initialState?: Partial<MRT_TableState<TData>>;
+  initialState?: Partial<SRT_TableState<TData>>;
   //     /**
   //      * Changes which kind of CSS layout is used to render the table. `semantic` uses default semantic HTML elements, while `grid` adds CSS grid and flexbox styles
   //      */

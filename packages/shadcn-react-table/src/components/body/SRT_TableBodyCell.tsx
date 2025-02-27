@@ -21,18 +21,19 @@ import {
 //     cellKeyboardShortcuts,
 //     openEditingCell,
 //   } from '../../utils/cell.utils';
-//   import { getCommonSRTCellStyles } from '../../utils/style.utils';
+import { getCommonSRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { TableCell } from '../ui/table';
 import { Skeleton } from '../ui/skeleton';
 import { SRT_TableBodyCellValue } from './SRT_TableBodyCellValue';
+import { cn } from '../../utils/tailwind';
 //   import { SRT_CopyButton } from '../buttons/SRT_CopyButton';
 //   import { SRT_EditCellTextField } from '../inputs/SRT_EditCellTextField';
 
-type TableCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
+type TableBodyCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
 
 export interface SRT_TableBodyCellProps<TData extends SRT_RowData>
-  extends TableCellProps {
+  extends TableBodyCellProps {
   cell: SRT_Cell<TData>;
   numRows?: number;
   rowRef: RefObject<HTMLTableRowElement | null>;
@@ -90,7 +91,7 @@ export const SRT_TableBodyCell = <TData extends SRT_RowData>({
   //   const { columnDefType } = columnDef;
 
   // TODO: replace later
-  const columnDefType: any = 'data'
+  const columnDefType: any = 'data';
 
   const args = { cell, column, row, table };
   const tableCellProps = {
@@ -117,7 +118,7 @@ export const SRT_TableBodyCell = <TData extends SRT_RowData>({
     );
   }, [isLoading, showSkeletons]);
 
-  //   const draggingBorders = useMemo(() => {
+  const draggingBorders = useMemo(() => {
   //     const isDraggingColumn = draggingColumn?.id === column.id;
   //     const isHoveredColumn = hoveredColumn?.id === column.id;
   //     const isDraggingRow = draggingRow?.id === row.id;
@@ -125,9 +126,9 @@ export const SRT_TableBodyCell = <TData extends SRT_RowData>({
   //     const isFirstColumn = column.getIsFirstColumn();
   //     const isLastColumn = column.getIsLastColumn();
   //     const isLastRow = numRows && staticRowIndex === numRows - 1;
-  //     const isResizingColumn = columnSizingInfo.isResizingColumn === column.id;
-  //     const showResizeBorder =
-  //       isResizingColumn && columnResizeMode === 'onChange';
+      const isResizingColumn = columnSizingInfo.isResizingColumn === column.id;
+      const showResizeBorder =
+        isResizingColumn && columnResizeMode === 'onChange';
 
   //     const borderStyle = showResizeBorder
   //       ? `2px solid ${draggingBorderColor} !important`
@@ -164,19 +165,17 @@ export const SRT_TableBodyCell = <TData extends SRT_RowData>({
   //           borderTop: isDraggingRow || isHoveredRow ? borderStyle : undefined,
   //         }
   //       : undefined;
-  //   }, [
-  //     columnSizingInfo.isResizingColumn,
-  //     draggingColumn,
-  //     draggingRow,
-  //     hoveredColumn,
-  //     hoveredRow,
-  //     staticRowIndex,
-  //   ]);
+    }, [
+      columnSizingInfo.isResizingColumn,
+      // draggingColumn,
+      // draggingRow,
+      // hoveredColumn,
+      // hoveredRow,
+      staticRowIndex,
+    ]);
 
   const isColumnPinned =
-    enableColumnPinning &&
-    columnDefType !== 'group' &&
-    column.getIsPinned();
+    enableColumnPinning && columnDefType !== 'group' && column.getIsPinned();
 
   //   const isEditable = isCellEditable({ cell, table });
 
@@ -262,6 +261,11 @@ export const SRT_TableBodyCell = <TData extends SRT_RowData>({
       onDoubleClick={handleDoubleClick}
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
+      style={getCommonSRTCellStyles({
+        column,
+        table,
+        // tableCellProps,
+      })}
       //   sx={(theme) => ({
       //     '&:hover': {
       //       outline:
@@ -311,8 +315,8 @@ export const SRT_TableBodyCell = <TData extends SRT_RowData>({
     >
       {tableCellProps.children ?? (
         <>
-          {cell.getIsPlaceholder() ? // columnDef.PlaceholderCell?.({ cell, column, row, table }) ?? null
-          null : showSkeletons !== false && (isLoading || showSkeletons) ? (
+          {cell.getIsPlaceholder() ? null : showSkeletons !== false && // columnDef.PlaceholderCell?.({ cell, column, row, table }) ?? null
+            (isLoading || showSkeletons) ? (
             <Skeleton
               //   animation="wave"
               className={`h-[${20}px] w-[${skeletonWidth}px]`}

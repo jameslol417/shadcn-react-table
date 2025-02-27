@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState } from 'react';
 import { useReactTable } from '@tanstack/react-table';
 import {
   type SRT_RowData,
@@ -6,9 +6,16 @@ import {
   type SRT_TableInstance,
   type SRT_StatefulTableOptions,
   type SRT_ColumnDef,
+  type SRT_ColumnSizingInfoState,
+  type SRT_TableState,
 } from '../types';
+import {
+  getAllLeafColumnDefs,
+  getColumnId,
+  prepareColumns,
+} from '../utils/column.utils';
+import { showRowSelectionColumn } from '../utils/displayColumn.utils';
 import { useSRT_Effects } from './useSRT_Effects';
-import { getAllLeafColumnDefs, getColumnId } from '../utils/column.utils';
 
 /**
  * The SRT hook that wraps the TanStack useReactTable hook and adds additional functionality
@@ -24,30 +31,30 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   //   const editInputRefs = useRef<Record<string, HTMLInputElement>>({});
   //   const filterInputRefs = useRef<Record<string, HTMLInputElement>>({});
   //   const searchInputRef = useRef<HTMLInputElement>(null);
-    const tableContainerRef = useRef<HTMLDivElement>(null);
-    const tableHeadCellRefs = useRef<Record<string, HTMLTableCellElement>>({});
-    const tablePaperRef = useRef<HTMLDivElement>(null);
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+  const tableHeadCellRefs = useRef<Record<string, HTMLTableCellElement>>({});
+  const tablePaperRef = useRef<HTMLDivElement>(null);
   //   const topToolbarRef = useRef<HTMLDivElement>(null);
-    const tableHeadRef = useRef<HTMLTableSectionElement>(null);
+  const tableHeadRef = useRef<HTMLTableSectionElement>(null);
   //   const tableFooterRef = useRef<HTMLTableSectionElement>(null);
 
-  //   //transform initial state with proper column order
-  //   const initialState: Partial<MRT_TableState<TData>> = useMemo(() => {
-  //     const initState = definedTableOptions.initialState ?? {};
-  //     initState.columnOrder =
-  //       initState.columnOrder ??
-  //       getDefaultColumnOrderIds({
-  //         ...definedTableOptions,
-  //         state: {
-  //           ...definedTableOptions.initialState,
-  //           ...definedTableOptions.state,
-  //         },
-  //       } as MRT_StatefulTableOptions<TData>);
-  //     initState.globalFilterFn = definedTableOptions.globalFilterFn ?? 'fuzzy';
-  //     return initState;
-  //   }, []);
+  //transform initial state with proper column order
+  const initialState: Partial<SRT_TableState<TData>> = useMemo(() => {
+    const initState = definedTableOptions.initialState ?? {};
+    // initState.columnOrder =
+    //   initState.columnOrder ??
+    //   getDefaultColumnOrderIds({
+    //     ...definedTableOptions,
+    //     state: {
+    //       ...definedTableOptions.initialState,
+    //       ...definedTableOptions.state,
+    //     },
+    //   } as MRT_StatefulTableOptions<TData>);
+    // initState.globalFilterFn = definedTableOptions.globalFilterFn ?? 'fuzzy';
+    return initState;
+  }, []);
 
-  //   definedTableOptions.initialState = initialState;
+  definedTableOptions.initialState = initialState;
 
   //   const [actionCell, setActionCell] = useState<MRT_Cell<TData> | null>(
   //     initialState.actionCell ?? null,
@@ -74,10 +81,10 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   //   const [columnOrder, onColumnOrderChange] = useState<MRT_ColumnOrderState>(
   //     initialState.columnOrder ?? [],
   //   );
-  //   const [columnSizingInfo, onColumnSizingInfoChange] =
-  //     useState<MRT_ColumnSizingInfoState>(
-  //       initialState.columnSizingInfo ?? ({} as MRT_ColumnSizingInfoState),
-  //     );
+  const [columnSizingInfo, onColumnSizingInfoChange] =
+    useState<SRT_ColumnSizingInfoState>(
+      initialState.columnSizingInfo ?? ({} as SRT_ColumnSizingInfoState),
+    );
   //   const [density, setDensity] = useState<MRT_DensityState>(
   //     initialState?.density ?? 'comfortable',
   //   );
@@ -127,7 +134,7 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
     //     actionCell,
     //     columnFilterFns,
     //     columnOrder,
-    //     columnSizingInfo,
+    columnSizingInfo,
     //     creatingRow,
     //     density,
     //     draggingColumn,
@@ -151,38 +158,38 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   const statefulTableOptions =
     definedTableOptions as SRT_StatefulTableOptions<TData>;
 
-  //   //don't recompute columnDefs while resizing column or dragging column/row
-    const columnDefsRef = useRef<SRT_ColumnDef<TData>[]>([]);
-  //   statefulTableOptions.columns =
-  //     statefulTableOptions.state.columnSizingInfo.isResizingColumn ||
-  //     statefulTableOptions.state.draggingColumn ||
-  //     statefulTableOptions.state.draggingRow
-  //       ? columnDefsRef.current
-  //       : prepareColumns({
-  //           columnDefs: [
-  //             ...([
-  //               showRowPinningColumn(statefulTableOptions) &&
-  //                 getMRT_RowPinningColumnDef(statefulTableOptions),
-  //               showRowDragColumn(statefulTableOptions) &&
-  //                 getMRT_RowDragColumnDef(statefulTableOptions),
-  //               showRowActionsColumn(statefulTableOptions) &&
-  //                 getMRT_RowActionsColumnDef(statefulTableOptions),
-  //               showRowExpandColumn(statefulTableOptions) &&
-  //                 getMRT_RowExpandColumnDef(statefulTableOptions),
-  //               showRowSelectionColumn(statefulTableOptions) &&
-  //                 getMRT_RowSelectColumnDef(statefulTableOptions),
-  //               showRowNumbersColumn(statefulTableOptions) &&
-  //                 getMRT_RowNumbersColumnDef(statefulTableOptions),
-  //             ].filter(Boolean) as MRT_ColumnDef<TData>[]),
-  //             ...statefulTableOptions.columns,
-  //             ...([
-  //               showRowSpacerColumn(statefulTableOptions) &&
-  //                 getMRT_RowSpacerColumnDef(statefulTableOptions),
-  //             ].filter(Boolean) as MRT_ColumnDef<TData>[]),
-  //           ],
-  //           tableOptions: statefulTableOptions,
-  //         });
-  //   columnDefsRef.current = statefulTableOptions.columns;
+  //don't recompute columnDefs while resizing column or dragging column/row
+  const columnDefsRef = useRef<SRT_ColumnDef<TData>[]>([]);
+  statefulTableOptions.columns = statefulTableOptions.state.columnSizingInfo
+    .isResizingColumn // ||
+    ? // statefulTableOptions.state.draggingColumn ||
+      // statefulTableOptions.state.draggingRow
+      columnDefsRef.current
+    : prepareColumns({
+        columnDefs: [
+          // ...([
+          //   showRowPinningColumn(statefulTableOptions) &&
+          //     getMRT_RowPinningColumnDef(statefulTableOptions),
+          //   showRowDragColumn(statefulTableOptions) &&
+          //     getMRT_RowDragColumnDef(statefulTableOptions),
+          //   showRowActionsColumn(statefulTableOptions) &&
+          //     getMRT_RowActionsColumnDef(statefulTableOptions),
+          //   showRowExpandColumn(statefulTableOptions) &&
+          //     getMRT_RowExpandColumnDef(statefulTableOptions),
+          showRowSelectionColumn(statefulTableOptions) &&
+            getSRT_RowSelectColumnDef(statefulTableOptions),
+          //   showRowNumbersColumn(statefulTableOptions) &&
+          //     getMRT_RowNumbersColumnDef(statefulTableOptions),
+          // ].filter(Boolean) as MRT_ColumnDef<TData>[]),
+          ...statefulTableOptions.columns,
+          // ...([
+          //   showRowSpacerColumn(statefulTableOptions) &&
+          //     getMRT_RowSpacerColumnDef(statefulTableOptions),
+          // ].filter(Boolean) as MRT_ColumnDef<TData>[]),
+        ],
+        tableOptions: statefulTableOptions,
+      });
+  columnDefsRef.current = statefulTableOptions.columns;
 
   //if loading, generate blank rows to show skeleton loaders
   statefulTableOptions.data = useMemo(
@@ -215,7 +222,7 @@ export const useSRT_TableInstance = <TData extends SRT_RowData>(
   // @ts-expect-error
   const table = useReactTable({
     //     onColumnOrderChange,
-    //     onColumnSizingInfoChange,
+    onColumnSizingInfoChange,
     //     onGroupingChange,
     //     onPaginationChange,
     ...statefulTableOptions,

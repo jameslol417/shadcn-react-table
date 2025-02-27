@@ -13,7 +13,7 @@
 //   type MRT_TableInstance,
 // } from '../types';
 
-import { type SRT_RowData, type SRT_ColumnDef } from "../types";
+import { type SRT_RowData, type SRT_ColumnDef, SRT_DefinedTableOptions, SRT_DefinedColumnDef } from "../types";
 
 export const getColumnId = <TData extends SRT_RowData>(
   columnDef: SRT_ColumnDef<TData>,
@@ -37,68 +37,68 @@ export const getAllLeafColumnDefs = <TData extends SRT_RowData>(
   return allLeafColumnDefs;
 };
 
-// export const prepareColumns = <TData extends MRT_RowData>({
-//   columnDefs,
-//   tableOptions,
-// }: {
-//   columnDefs: MRT_ColumnDef<TData>[];
-//   tableOptions: MRT_DefinedTableOptions<TData>;
-// }): MRT_DefinedColumnDef<TData>[] => {
-//   const {
-//     aggregationFns = {},
-//     defaultDisplayColumn,
-//     filterFns = {},
-//     sortingFns = {},
-//     state: { columnFilterFns = {} } = {},
-//   } = tableOptions;
-//   return columnDefs.map((columnDef) => {
-//     //assign columnId
-//     if (!columnDef.id) columnDef.id = getColumnId(columnDef);
-//     //assign columnDefType
-//     if (!columnDef.columnDefType) columnDef.columnDefType = 'data';
-//     if (columnDef.columns?.length) {
-//       columnDef.columnDefType = 'group';
-//       //recursively prepare columns if this is a group column
-//       columnDef.columns = prepareColumns({
-//         columnDefs: columnDef.columns,
-//         tableOptions,
-//       });
-//     } else if (columnDef.columnDefType === 'data') {
-//       //assign aggregationFns if multiple aggregationFns are provided
-//       if (Array.isArray(columnDef.aggregationFn)) {
-//         const aggFns = columnDef.aggregationFn as string[];
-//         columnDef.aggregationFn = (
-//           columnId: string,
-//           leafRows: Row<TData>[],
-//           childRows: Row<TData>[],
-//         ) =>
-//           aggFns.map((fn) =>
-//             aggregationFns[fn]?.(columnId, leafRows, childRows),
-//           );
-//       }
+export const prepareColumns = <TData extends SRT_RowData>({
+  columnDefs,
+  tableOptions,
+}: {
+  columnDefs: SRT_ColumnDef<TData>[];
+  tableOptions: SRT_DefinedTableOptions<TData>;
+}): SRT_DefinedColumnDef<TData>[] => {
+  const {
+    aggregationFns = {},
+    // defaultDisplayColumn,
+    filterFns = {},
+    sortingFns = {},
+    // state: { columnFilterFns = {} } = {},
+  } = tableOptions;
+  return columnDefs.map((columnDef) => {
+    //assign columnId
+    if (!columnDef.id) columnDef.id = getColumnId(columnDef);
+    // //assign columnDefType
+    // if (!columnDef.columnDefType) columnDef.columnDefType = 'data';
+    // if (columnDef.columns?.length) {
+    //   columnDef.columnDefType = 'group';
+    //   //recursively prepare columns if this is a group column
+    //   columnDef.columns = prepareColumns({
+    //     columnDefs: columnDef.columns,
+    //     tableOptions,
+    //   });
+    // } else if (columnDef.columnDefType === 'data') {
+    //   //assign aggregationFns if multiple aggregationFns are provided
+    //   if (Array.isArray(columnDef.aggregationFn)) {
+    //     const aggFns = columnDef.aggregationFn as string[];
+    //     columnDef.aggregationFn = (
+    //       columnId: string,
+    //       leafRows: Row<TData>[],
+    //       childRows: Row<TData>[],
+    //     ) =>
+    //       aggFns.map((fn) =>
+    //         aggregationFns[fn]?.(columnId, leafRows, childRows),
+    //       );
+    //   }
 
-//       //assign filterFns
-//       if (Object.keys(filterFns).includes(columnFilterFns[columnDef.id])) {
-//         columnDef.filterFn =
-//           filterFns[columnFilterFns[columnDef.id]] ?? filterFns.fuzzy;
-//         (columnDef as MRT_DefinedColumnDef<TData>)._filterFn =
-//           columnFilterFns[columnDef.id];
-//       }
+    //   //assign filterFns
+    //   if (Object.keys(filterFns).includes(columnFilterFns[columnDef.id])) {
+    //     columnDef.filterFn =
+    //       filterFns[columnFilterFns[columnDef.id]] ?? filterFns.fuzzy;
+    //     (columnDef as SRT_DefinedColumnDef<TData>)._filterFn =
+    //       columnFilterFns[columnDef.id];
+    //   }
 
-//       //assign sortingFns
-//       if (Object.keys(sortingFns).includes(columnDef.sortingFn as string)) {
-//         // @ts-expect-error
-//         columnDef.sortingFn = sortingFns[columnDef.sortingFn];
-//       }
-//     } else if (columnDef.columnDefType === 'display') {
-//       columnDef = {
-//         ...(defaultDisplayColumn as MRT_ColumnDef<TData>),
-//         ...columnDef,
-//       };
-//     }
-//     return columnDef;
-//   }) as MRT_DefinedColumnDef<TData>[];
-// };
+    //   //assign sortingFns
+    //   if (Object.keys(sortingFns).includes(columnDef.sortingFn as string)) {
+    //     // @ts-expect-error
+    //     columnDef.sortingFn = sortingFns[columnDef.sortingFn];
+    //   }
+    // } else if (columnDef.columnDefType === 'display') {
+    //   columnDef = {
+    //     ...(defaultDisplayColumn as SRT_ColumnDef<TData>),
+    //     ...columnDef,
+    //   };
+    // }
+    return columnDef;
+  }) as SRT_DefinedColumnDef<TData>[];
+};
 
 // export const reorderColumn = <TData extends MRT_RowData>(
 //   draggedColumn: MRT_Column<TData>,

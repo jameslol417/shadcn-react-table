@@ -18,12 +18,14 @@ import {
 // import { getCommonSRTCellStyles } from '../../utils/style.utils';
 import { parseFromValuesOrFunc } from '../../utils/utils';
 import { TableHead } from '../ui/table';
+import { cn } from '../../utils/tailwind';
+import { getCommonSRTCellStyles } from '../../utils/style.utils';
 // import { cellKeyboardShortcuts } from '../../utils/cell.utils';
 
-type TableCellProps = React.ThHTMLAttributes<HTMLTableCellElement>;
+type TableHeadCellProps = React.ThHTMLAttributes<HTMLTableCellElement>;
 
 export interface SRT_TableHeadCellProps<TData extends SRT_RowData>
-  extends TableCellProps {
+  extends TableHeadCellProps {
   columnVirtualizer?: SRT_ColumnVirtualizer;
   header: SRT_Header<TData>;
   staticColumnIndex?: number;
@@ -97,43 +99,47 @@ export const SRT_TableHeadCell = <TData extends SRT_RowData>({
   //         columnDef.enableGrouping !== false &&
   //         !grouping.includes(column.id)));
 
-//   const headerPL = useMemo(() => {
-//     let pl = 0;
-//     if (column.getCanSort()) pl += 1;
-//     if (showColumnActions) pl += 1.75;
-//     if (showDragHandle) pl += 1.5;
-//     return pl;
-//   }, [showColumnActions, showDragHandle]);
+  //   const headerPL = useMemo(() => {
+  //     let pl = 0;
+  //     if (column.getCanSort()) pl += 1;
+  //     if (showColumnActions) pl += 1.75;
+  //     if (showDragHandle) pl += 1.5;
+  //     return pl;
+  //   }, [showColumnActions, showDragHandle]);
 
-  //   const draggingBorders = useMemo(() => {
-  //     const showResizeBorder =
-  //       columnSizingInfo.isResizingColumn === column.id &&
-  //       columnResizeMode === 'onChange' &&
-  //       !header.subHeaders.length;
+  // const draggingBorders = useMemo(() => {
+  //   const showResizeBorder =
+  //     columnSizingInfo.isResizingColumn === column.id &&
+  //     columnResizeMode === 'onChange' &&
+  //     !header.subHeaders.length;
 
-  //     // const borderStyle = showResizeBorder
-  //     //   ? `2px solid ${draggingBorderColor} !important`
-  //     //   : draggingColumn?.id === column.id
-  //     //     ? `1px dashed ${theme.palette.grey[500]}`
-  //     //     : hoveredColumn?.id === column.id
-  //     //       ? `2px dashed ${draggingBorderColor}`
-  //     //       : undefined;
+  //   const borderStyle = showResizeBorder
+  //     ? `2px solid ${draggingBorderColor} !important`
+  //     : draggingColumn?.id === column.id
+  //     ? `1px dashed ${theme.palette.grey[500]}`
+  //     : hoveredColumn?.id === column.id
+  //     ? `2px dashed ${draggingBorderColor}`
+  //     : undefined;
 
-  //     if (showResizeBorder) {
-  //       return columnResizeDirection === 'ltr'
-  //         ? { borderRight: borderStyle }
-  //         : { borderLeft: borderStyle };
-  //     }
-  //     const draggingBorders = borderStyle
-  //       ? {
-  //           borderLeft: borderStyle,
-  //           borderRight: borderStyle,
-  //           borderTop: borderStyle,
-  //         }
-  //       : undefined;
+  //   if (showResizeBorder) {
+  //     return columnResizeDirection === 'ltr'
+  //       ? { borderRight: borderStyle }
+  //       : { borderLeft: borderStyle };
+  //   }
+  //   const draggingBorders = borderStyle
+  //     ? {
+  //         borderLeft: borderStyle,
+  //         borderRight: borderStyle,
+  //         borderTop: borderStyle,
+  //       }
+  //     : undefined;
 
-  //     return draggingBorders;
-  //   }, [draggingColumn, hoveredColumn, columnSizingInfo.isResizingColumn]);
+  //   return draggingBorders;
+  // }, [
+  //   // draggingColumn,
+  //   // hoveredColumn,
+  //   columnSizingInfo.isResizingColumn,
+  // ]);
 
   //   const handleDragEnter = (_e: DragEvent) => {
   //     if (enableGrouping && hoveredColumn?.id === 'drop-zone') {
@@ -202,8 +208,15 @@ export const SRT_TableHeadCell = <TData extends SRT_RowData>({
         }
       }}
       //   tabIndex={enableKeyboardShortcuts ? 0 : undefined}
-      //   {...tableCellProps}
-      //   onKeyDown={handleKeyDown}
+      {...tableCellProps}
+      style={getCommonSRTCellStyles({
+        column,
+        header,
+        table,
+        // tableCellProps,
+        // theme,
+      })}
+      // onKeyDown={handleKeyDown}
       //   sx={(theme: Theme) => ({
       //     '& :hover': {
       //       '.MuiButtonBase-root': {
@@ -251,25 +264,21 @@ export const SRT_TableHeadCell = <TData extends SRT_RowData>({
         ? null
         : tableCellProps.children ?? (
             <div
-              className="Mui-TableHeadCell-Content"
-            //   sx={{
-            //     alignItems: 'center',
-            //     display: 'flex',
-            //     flexDirection:
-            //       tableCellProps?.align === 'right' ? 'row-reverse' : 'row',
-            //     justifyContent:
-            //       columnDefType === 'group' ||
-            //       tableCellProps?.align === 'center'
-            //         ? 'center'
-            //         : column.getCanResize()
-            //         ? 'space-between'
-            //         : 'flex-start',
-            //     position: 'relative',
-            //     width: '100%',
-            //   }}
+              className={cn(
+                `TableHeadCell-Content align-center flex relative w-full`,
+                tableCellProps.align === 'right'
+                  ? 'flex-row-reverse'
+                  : 'flex-row',
+                // columnDefType === 'group' ||
+                tableCellProps.align === 'center'
+                  ? 'justify-center'
+                  : column.getCanResize()
+                  ? 'justify-between'
+                  : 'justify-start',
+              )}
             >
               <div
-                className="Mui-TableHeadCell-Content-Labels"
+                className="TableHeadCell-Content-Labels"
                 onClick={column.getToggleSortingHandler()}
                 // sx={{
                 //   alignItems: 'center',
@@ -288,19 +297,19 @@ export const SRT_TableHeadCell = <TData extends SRT_RowData>({
                 // }}
               >
                 <div
-                  className="Mui-TableHeadCell-Content-Wrapper"
-                //   sx={{
-                //     '&:hover': {
-                //       textOverflow: 'clip',
-                //     },
-                //     minWidth: `${Math.min(columnDef.header?.length ?? 0, 4)}ch`,
-                //     overflow: columnDefType === 'data' ? 'hidden' : undefined,
-                //     textOverflow: 'ellipsis',
-                //     whiteSpace:
-                //       (columnDef.header?.length ?? 0) < 20
-                //         ? 'nowrap'
-                //         : 'normal',
-                //   }}
+                  className="TableHeadCell-Content-Wrapper"
+                  //   sx={{
+                  //     '&:hover': {
+                  //       textOverflow: 'clip',
+                  //     },
+                  //     minWidth: `${Math.min(columnDef.header?.length ?? 0, 4)}ch`,
+                  //     overflow: columnDefType === 'data' ? 'hidden' : undefined,
+                  //     textOverflow: 'ellipsis',
+                  //     whiteSpace:
+                  //       (columnDef.header?.length ?? 0) < 20
+                  //         ? 'nowrap'
+                  //         : 'normal',
+                  //   }}
                 >
                   {HeaderElement}
                 </div>
@@ -312,12 +321,12 @@ export const SRT_TableHeadCell = <TData extends SRT_RowData>({
                 )} */}
               </div>
               {
-              //columnDefType !== 'group' && (
+                //columnDefType !== 'group' && (
                 <div
-                  className="Mui-TableHeadCell-Content-Actions"
-                //   sx={{
-                //     whiteSpace: 'nowrap',
-                //   }}
+                  className="TableHeadCell-Content-Actions"
+                  //   sx={{
+                  //     whiteSpace: 'nowrap',
+                  //   }}
                 >
                   {/* {showDragHandle && (
                     <SRT_TableHeadCellGrabHandle
@@ -335,7 +344,7 @@ export const SRT_TableHeadCell = <TData extends SRT_RowData>({
                     />
                   )} */}
                 </div>
-              //)
+                //)
               }
               {/* {column.getCanResize() && (
                 <SRT_TableHeadCellResizeHandle header={header} table={table} />

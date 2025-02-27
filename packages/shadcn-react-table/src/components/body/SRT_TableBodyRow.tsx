@@ -189,7 +189,7 @@ export const SRT_TableBodyRow = <TData extends SRT_RowData>({
             rowVirtualizer?.measureElement(node);
           }
         }}
-        // selected={isRowSelected}
+        // selected={isRowSelected} // TODO: decide if this is needed
         {...tableRowProps}
         style={{
           transform: virtualRow
